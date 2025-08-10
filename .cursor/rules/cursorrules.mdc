@@ -1,0 +1,56 @@
+---
+description: Rules to guide the assistant toward secure, optimal code for a drawing-driven music app
+globs: ['**/*.{js,jsx,ts,tsx,py,rb,go,rs,cpp,c,cs,java,kt,swift}', '**/*.{html,css,scss}', 'src/**', 'api/**', 'server/**', 'app/**', 'scripts/**']
+alwaysApply: true
+tags: ['Security', 'Performance', 'Audio', 'Graphics', 'Web', 'Desktop']
+---
+
+## Context
+- Build a “Paint-style” app where art drives sound: colors/brushes map to instruments/params; geometry/timing of strokes drives playback like a DAW timeline.
+- Target may be Web (Canvas/WebAudio), Desktop (Electron/Tauri), or hybrid. Keep modules portable.
+
+## Security (baseline)
+- Validate and sanitize all untrusted input (files, query/body, IPC, drag/drop) before side effects (DB, FS, network, audio graph).
+- No secrets in client bundles. Load secrets via environment/config only on trusted backends. Never log or echo secrets/PII.
+- Disallow `eval`-style execution and dynamic code loading from untrusted sources.
+- Use allowlists for outbound requests; set timeouts and size limits. Avoid SSRF.
+- Set secure headers and CSP where applicable; restrict CORS to allowlisted origins; cookies must be httpOnly/secure in production.
+- Return safe errors (no stack/paths to clients); log details server-side with redaction.
+- Keep dependencies updated; avoid abandoned packages; pin versions.
+
+## Architecture
+- Separate concerns:
+  - Rendering layer: canvas/WebGL (or native UI) for drawing and hit-testing.
+  - Mapping layer: color/brush → instrument/synth parameters (pure, serializable rules).
+  - Timeline/scheduler: converts strokes/geometry into events; deterministic and replayable.
+  - Audio engine: WebAudio/native audio; schedule slightly ahead; avoid main-thread blocking.
+  - Persistence: import/export projects as stable JSON (art + mappings + tempo/settings).
+- Use workers/threads for heavy work (geometry analysis, audio scheduling, exporting) to keep UI responsive.
+- Prefer deterministic pure functions for mapping and event generation; keep side effects at edges.
+
+## Performance
+- Rendering: use requestAnimationFrame; batch state updates; prefer OffscreenCanvas/WebGL when possible; throttle pointer events.
+- Memory: reuse buffers/typed arrays; avoid large per-frame allocations; pool objects to reduce GC.
+- Audio: schedule with small look-ahead and tight interval; precompute envelopes/buffers; avoid creating/destroying nodes per event.
+- Data: paginate/stream large files; compress/export efficiently; cache derived geometry.
+
+## Coding Practices
+- Clear naming, small modules, explicit interfaces at boundaries. Prefer static typing where available but do not mandate a specific language.
+- Input schemas appropriate to the language (e.g., JSON Schema, Pydantic, serde validators). Validate on ingress and before persistence.
+- Centralized error handling; map internal errors to safe user messages.
+- Structured logging with levels; include request/session IDs where relevant; redact secrets.
+- Tests: unit tests for mapping/timeline determinism; property tests for color→instrument rules; smoke/e2e for draw→sound flow.
+
+## Audio/Timeline Essentials
+- The art is the score: strokes/paths/regions define notes/clips; color selects instrument; thickness/alpha/brush pattern maps to dynamics/FX.
+- Keep a canonical project model (art, mappings, tempo, transport). Derive events from this model, not from UI state.
+- Ensure transport controls (play/pause/seek/loop) operate on the model; audio scheduling consumes derived events.
+
+## Assistant Verification Checklist
+- Inputs validated before any side effects; no secrets in client; no `eval`.
+- CORS/CSP/headers configured for web targets; safe error responses; logs are redacted.
+- Rendering and audio work do not block the main thread; workers used for heavy tasks.
+- Deterministic mapping from art → timeline events; tests cover mapping and scheduling.
+- Performance: throttled events, buffer reuse, and audio scheduled with look-ahead.
+- Project files export/import as stable JSON; versioned schema if needed.
+
