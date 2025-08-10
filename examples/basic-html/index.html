@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SoundPad Basic HTML</title>
+    <style>
+      body { margin: 0; font-family: system-ui, sans-serif; }
+      #app { padding: 16px; }
+      button { margin-right: 8px; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>SoundPad (local IIFE build)</h1>
+      <div>
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <button id="seek">Seek 2.5s</button>
+        <button id="dispose">Dispose</button>
+      </div>
+      <div id="mount" style="margin-top:12px; border:1px solid #ddd; padding:12px;"></div>
+    </div>
+
+    <!-- local IIFE build path; works under any base path like /play/soundpad/ -->
+    <script src="../../packages/soundpad-core/dist/index.global.js"></script>
+    <script>
+      const mount = document.getElementById('mount');
+      const app = window.SoundPad.createSoundPad(mount, { antialias: true });
+      document.getElementById('play').onclick = () => app.play();
+      document.getElementById('pause').onclick = () => app.pause();
+      document.getElementById('seek').onclick = () => app.seek(2.5);
+      document.getElementById('dispose').onclick = () => app.dispose();
+      window.addEventListener('beforeunload', () => app.dispose());
+    </script>
+  </body>
+  </html>
+

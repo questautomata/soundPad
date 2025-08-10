@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "useUnknownInCatchVariables": true
+  },
+  "exclude": ["node_modules", "dist", "coverage", "examples"]
+}
+

@@ -1,0 +1,33 @@
+{
+  "name": "soundpad-core",
+  "version": "0.0.1",
+  "description": "Core engine and utilities for SoundPad.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "unpkg": "dist/index.global.js",
+  "jsdelivr": "dist/index.global.js",
+  "files": ["dist", "README.md", "LICENSE", "NOTICE"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.4",
+    "vitest": "^1.6.0",
+    "rimraf": "^5.0.5"
+  },
+  "engines": { "node": ">=18.17" }
+}
+
