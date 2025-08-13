@@ -38,7 +38,7 @@
 - `packages/soundpad-react/src/hooks/useAudioEngine.ts` - Hook for engine lifecycle.
 - `packages/soundpad-react/src/**/*.test.tsx` - Component tests.
 
-- `examples/next-app/pages/soundpad.tsx` - Example Next.js integration page (demo only).
+- `examples/basic-html/index.html` - Plain HTML usage of local IIFE build.
 
 ### Notes
 
@@ -48,24 +48,24 @@
 
 ## Tasks
 
-- [ ] 1.0 Workspace and Packaging Setup (Monorepo-ready)
-  - [ ] 1.1 Create `pnpm-workspace.yaml` with `packages/*` and `examples/*`.
-  - [ ] 1.2 Scaffold `packages/soundpad-core` and `packages/soundpad-react` with `package.json`, `tsconfig.json`, and folders.
-  - [ ] 1.3 Configure TypeScript (strict) and `tsup` builds for ESM + `.d.ts` outputs.
-  - [ ] 1.4 Add ESLint + Prettier configs; root scripts: `lint`, `format`, `build`, `test`.
-  - [ ] 1.5 Set up Vitest in both packages; add a trivial passing test.
-  - [ ] 1.6 Add GitHub Actions CI (pnpm install, lint, test, build on Node LTS).
-  - [ ] 1.7 Ensure `LICENSE` and `NOTICE` are included in package publishes; add README stubs.
-  - [ ] 1.8 Add `examples/next-app/pages/soundpad.tsx` placeholder page (mount plan only).
+- [x] 1.0 Workspace and Packaging Setup
+  - [x] 1.1 Create `pnpm-workspace.yaml` with `packages/*`.
+  - [x] 1.2 Scaffold `packages/soundpad-core` with `package.json`, `tsconfig.json`, and folders.
+  - [x] 1.3 Configure TypeScript (strict) and `tsup` builds for ESM + IIFE global + `.d.ts` outputs.
+  - [x] 1.4 Add ESLint + Prettier configs; root scripts: `lint`, `format`, `build`, `test`, `preview`.
+  - [x] 1.5 Set up Vitest in core; add a trivial passing test.
+  - [x] 1.6 Add GitHub Actions CI (pnpm install, lint, test, build on Node LTS).
+  - [x] 1.7 Ensure `LICENSE` and `NOTICE` are included in package publishes; add README stubs.
+  - [x] 1.8 Add `examples/basic-html/index.html` placeholder page (local IIFE demo).
 
-- [ ] 2.0 Rendering & Canvas (PixiJS WebGL2)
-  - [ ] 2.1 Initialize PixiJS with WebGL2 preference and Canvas2D fallback; handle device pixel ratio.
-  - [ ] 2.2 Implement `GridOverlay` for bars/beats; zoom and pan; performance counters (FPS/draw calls).
-  - [ ] 2.3 Pointer handling: down/move/up; throttled sampling; stroke capture pipeline.
-  - [ ] 2.4 Brush system: `Brush` interface, `BrushRegistry`, default brushes (mallet, pluck, bow, granular).
-  - [ ] 2.5 Stroke model: `Stroke` + `StrokeBuffer` with pooling to reduce GC.
-  - [ ] 2.6 Tools: paint, erase, select; coarse bucketed hit-testing for selection/erase.
-  - [ ] 2.7 Explicit disposal of GPU resources; teardown lifecycle tests.
+- [x] 2.0 Rendering & Canvas (PixiJS WebGL2)
+  - [x] 2.1 Initialize PixiJS with WebGL2 preference and Canvas2D fallback; handle device pixel ratio.
+  - [x] 2.2 Implement `GridOverlay` for bars/beats; zoom and pan; performance counters (FPS/draw calls).
+  - [x] 2.3 Pointer handling: down/move/up; throttled sampling; stroke capture pipeline.
+  - [x] 2.4 Brush system: `Brush` interface, `BrushRegistry`, default brushes (mallet, pluck, bow, granular).
+  - [x] 2.5 Stroke model: `Stroke` + `StrokeBuffer` with pooling to reduce GC.
+  - [x] 2.6 Tools: paint, erase, select; coarse bucketed hit-testing for selection/erase.
+  - [x] 2.7 Explicit disposal of GPU resources; teardown lifecycle tests.
 
 - [ ] 3.0 Mapping & Stroke Physics (Deterministic)
   - [ ] 3.1 Feature extraction: thickness, length, curvature/roughness, alpha, draw speed.

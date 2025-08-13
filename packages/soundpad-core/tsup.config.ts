@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/physics/StrokePhysics.worker.ts'],
   format: ['esm', 'iife'],
   globalName: 'SoundPad',
   dts: true,
@@ -11,5 +11,12 @@ export default defineConfig({
   minify: false,
   target: 'es2021',
   outExtension: (ctx) => ({ js: ctx.format === 'iife' ? '.global.js' : '.js' }),
+  banner: {
+    js: `/*@__PURE__*/`,
+  },
+  esbuildOptions(options) {
+    // Make sure workers are emitted alongside esm output
+    options.loader = { ...(options.loader || {}), '.ts': 'ts' };
+  },
 });
 

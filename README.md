@@ -1,6 +1,6 @@
 # SoundPad
 
-Paint-style app where art drives sound. This repo contains the core library and a React adapter.
+Paint-style app where art drives sound. This repo contains the framework‑agnostic core library.
 
 ## Quick start
 
