@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/physics/StrokePhysics.worker.ts'],
+  entry: ['src/index.ts', 'src/physics/StrokePhysics.worker.ts', 'src/audio/processors/Envelope.worklet.ts'],
   format: ['esm', 'iife'],
   globalName: 'SoundPad',
   dts: true,

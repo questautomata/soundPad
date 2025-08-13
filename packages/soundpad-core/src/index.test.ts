@@ -9,6 +9,7 @@ test('exports and basic API exist', async () => {
     app.play();
     app.pause();
     app.seek(1.23);
+    app.clear();
     app.dispose();
   } else {
     expect(typeof createSoundPad).toBe('function');

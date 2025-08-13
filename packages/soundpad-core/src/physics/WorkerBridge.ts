@@ -14,7 +14,7 @@ export class WorkerBridge {
     if (this.worker || this.fallback) return;
     try {
     // The worker file is emitted next to the ESM build as JS
-    const url = new URL('./StrokePhysics.worker.js', import.meta.url);
+    const url = new URL('./physics/StrokePhysics.worker.js', import.meta.url);
     this.worker = new Worker(url, { type: 'module' });
       this.worker.onmessage = (ev: MessageEvent) => {
         const data = ev.data as { type: 'features'; features: Feature[] };

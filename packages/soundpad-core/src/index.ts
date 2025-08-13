@@ -22,11 +22,12 @@ export type SoundPadApp = {
   play(): void;
   pause(): void;
   seek(seconds: number): void;
+  clear(): void;
   dispose(): void;
   setTool(tool: import('./tools/Tools').Tool): void;
   getTool(): import('./tools/Tools').Tool;
-  undo?(): void;
-  redo?(): void;
+  undo(): void;
+  redo(): void;
 };
 
 export async function createSoundPad(root: HTMLElement, options: SoundPadOptions = {}): Promise<SoundPadApp> {
@@ -59,8 +60,12 @@ export async function createSoundPad(root: HTMLElement, options: SoundPadOptions
 
   const buffer = new StrokeBuffer();
   const strokes: Array<import('./drawing/Stroke').Stroke> = [];
-  const undoStack: Array<{ type: 'add' | 'remove'; stroke: import('./drawing/Stroke').Stroke; index?: number }> = [];
-  const redoStack: Array<{ type: 'add' | 'remove'; stroke: import('./drawing/Stroke').Stroke; index?: number }> = [];
+  type Op =
+    | { type: 'add'; stroke: import('./drawing/Stroke').Stroke }
+    | { type: 'remove'; stroke: import('./drawing/Stroke').Stroke; index: number }
+    | { type: 'clear'; previous: Array<import('./drawing/Stroke').Stroke> };
+  const undoStack: Op[] = [];
+  const redoStack: Op[] = [];
   const buckets = new BucketIndex(64);
   let currentTool: import('./tools/Tools').Tool = 'paint';
   const mapping = new MappingEngine();
@@ -161,6 +166,7 @@ export async function createSoundPad(root: HTMLElement, options: SoundPadOptions
   const tick = () => {
     const { width, height } = renderer.size;
     grid.draw(width, height, renderer.transform.scale);
+    audio.tickMetronome();
   };
   renderer.ticker.add(tick);
 
@@ -179,8 +185,10 @@ export async function createSoundPad(root: HTMLElement, options: SoundPadOptions
         const idx = strokes.lastIndexOf(op.stroke);
         if (idx >= 0) strokes.splice(idx, 1);
       } else if (op.type === 'remove') {
-        const pos = typeof op.index === 'number' ? op.index : strokes.length;
+        const pos = op.index ?? strokes.length;
         strokes.splice(pos, 0, op.stroke);
+      } else if (op.type === 'clear') {
+        strokes.splice(0, strokes.length, ...op.previous);
       }
       redoStack.push(op);
       buckets.build(strokes);
@@ -194,10 +202,22 @@ export async function createSoundPad(root: HTMLElement, options: SoundPadOptions
       } else if (op.type === 'remove') {
         const idx = strokes.indexOf(op.stroke);
         if (idx >= 0) strokes.splice(idx, 1);
+      } else if (op.type === 'clear') {
+        strokes.length = 0;
       }
       undoStack.push(op);
       buckets.build(strokes);
       redrawAll();
+    },
+    clear() {
+      if (strokes.length === 0) return;
+      const previous = strokes.slice();
+      strokes.length = 0;
+      undoStack.push({ type: 'clear', previous });
+      redoStack.length = 0;
+      buckets.build(strokes);
+      redrawAll();
+      physics.clear();
     },
     dispose() {
       renderer.ticker.remove(tick);

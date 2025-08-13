@@ -67,20 +67,20 @@
   - [x] 2.6 Tools: paint, erase, select; coarse bucketed hit-testing for selection/erase.
   - [x] 2.7 Explicit disposal of GPU resources; teardown lifecycle tests.
 
-- [ ] 3.0 Mapping & Stroke Physics (Deterministic)
-  - [ ] 3.1 Feature extraction: thickness, length, curvature/roughness, alpha, draw speed.
-  - [ ] 3.2 Implement `StrokePhysics.worker.ts` with fixed-step loop, typed arrays, seeded RNG.
-  - [ ] 3.3 Default mappings: color→instrument; brush→articulation; thickness/alpha→velocity+sustain; curvature/length→vibrato/FM+sustain.
-  - [ ] 3.4 Event bridge from physics to audio scheduler (note on/off, param mods).
-  - [ ] 3.5 Determinism tests: identical input → identical event stream.
+- [x] 3.0 Mapping & Stroke Physics (Deterministic)
+  - [x] 3.1 Feature extraction: thickness, length, curvature/roughness, alpha, draw speed.
+  - [x] 3.2 Implement `StrokePhysics.worker.ts` with fixed-step loop, typed arrays, seeded RNG.
+  - [x] 3.3 Default mappings: color→instrument; brush→articulation; thickness/alpha→velocity+sustain; curvature/length→vibrato/FM+sustain.
+  - [x] 3.4 Event bridge from physics to audio scheduler (note on/off, param mods).
+  - [x] 3.5 Determinism tests: identical input → identical event stream.
 
-- [ ] 4.0 Audio Engine (WebAudio + AudioWorklet)
-  - [ ] 4.1 Initialize/resume AudioContext on user gesture; tempo/timebase glue.
-  - [ ] 4.2 Implement `Envelope.worklet.ts` for ADSR/LFO timing-critical ops; parameter automation helpers.
-  - [ ] 4.3 Implement voices: `SubtractiveVoice`, `FmVoice`, `SamplerVoice`; gain staging; simple FX sends optional.
-  - [ ] 4.4 `VoiceManager` with 12 voices per track and 24 global; voice stealing policy implementation.
-  - [ ] 4.5 Scheduler with ~100ms look-ahead; verify timing drift < 3 ms under load.
-  - [ ] 4.6 Metronome tick; tempo change handling; unit tests for scheduling.
+- [x] 4.0 Audio Engine (WebAudio + AudioWorklet)
+  - [x] 4.1 Initialize/resume AudioContext on user gesture; tempo/timebase glue.
+  - [x] 4.2 Implement `Envelope.worklet.ts` for ADSR/LFO timing-critical ops; parameter automation helpers.
+  - [x] 4.3 Implement voices: `SubtractiveVoice`, `FmVoice`, `SamplerVoice`; gain staging; simple FX sends optional.
+  - [x] 4.4 `VoiceManager` with 12 voices per track and 24 global; voice stealing policy implementation.
+  - [x] 4.5 Scheduler with ~100ms look-ahead; verify timing drift < 3 ms under load.
+  - [x] 4.6 Metronome tick; tempo change handling; unit tests for scheduling.
 
 - [ ] 5.0 Tracks, Timeline & Transport
   - [ ] 5.1 `Track` model; assignment of canvas selections to tracks.
